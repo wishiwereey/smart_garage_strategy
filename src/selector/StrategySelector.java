@@ -2,24 +2,23 @@ package selector;
 import data.OccupancyProvider;
 import model.ParkingSession;
 import model.Vehicle;
+import pricing.*;
 import spot.*;
 public class StrategySelector {
-    private final OccupancyProvider occupancyProvider;
-    public StrategySelector(OccupancyProvider occupancyProvider) {
-        this.occupancyProvider = occupancyProvider;
+    private OccupancyProvider sensor;
+    public StrategySelector(OccupancyProvider sensor) {
+        this.sensor = sensor;
     }
-    public String selectPricing(ParkingSession session) {
-        double occupancy = occupancyProvider.getOccupancyRate();
-        if (occupancy >= 0.8) {
-            return "dynamic";
+    public PricingStrategy selectPricing(ParkingSession session) {
+        if (sensor.getOccupancyRate() >= 0.8) {
+            return new DynamicPricing(sensor);
         }
         if (session.getVehicle().getSize() == 3) {
-            return "vehicle";
+            return new VehicleTypePricing();
         }
-        return "hourly";
+        return new HourlyPricing();
     }
-    public SpotSelectionStrategy selectSpot(
-            Vehicle vehicle, double occupancy) {
+    public SpotSelectionStrategy selectSpot(Vehicle vehicle, double occupancy) {
         if (occupancy >= 0.8) {
             return new VehicleFitStrategy();
         }
