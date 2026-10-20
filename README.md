@@ -28,6 +28,9 @@ The project demonstrates the Strategy Design Pattern through two independent str
 | SpotStrategyTest | Verifies the behavior of parking space strategies |
 | SelectorTest | Verifies automatic strategy selection rules |
 
+## Strategy Pattern UML Diagram
+![SmartGarage UML Diagram](./Strategy_UML.png)
+
 ## Why Strategy Instead of State or Template Method?
 The Strategy Pattern is used because the system needs interchangeable algorithms for pricing and parking spot selection.
 Parking fee calculation can be performed using different approaches. 
